@@ -1,0 +1,262 @@
+{% extends "base.html" %}
+{% block page_content %}
+<script src="{{  url_for('static',filename='opsplatform/js/jquery-2.1.1.js') }}"></script>
+<link href="https://magicbox.bk.tencent.com/static_api/v3/assets/bootstrap-3.3.4/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="https://magicbox.bk.tencent.com/static_api/v3/assets/datatables-1.10.7/dataTables.bootstrap.css" rel="stylesheet"/>
+<script src="https://magicbox.bk.tencent.com/static_api/v3/assets/js/jquery-1.10.2.min.js"></script>
+<script src="https://magicbox.bk.tencent.com/static_api/v3/assets/datatables-1.10.7/jquery.dataTables.js"></script>
+<script src="https://magicbox.bk.tencent.com/static_api/v3/assets/datatables-1.10.7/dataTables.bootstrap.js"></script>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li class="active">
+                    <strong>😁</strong><br>
+                </li>
+            </ol>
+        </div>
+
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                        <div class="panel-content">
+                          <table id="table2_demo4" class="table table-bordered table-striped dataTable no-footer" role="grid" aria-describedby="table2_demo4_info">
+                              <thead>
+                                      <th class="sorting_asc" rowspan="1" colspan="1" aria-label="任务ID">任务ID</th>
+                                      <th class="sorting" tabindex="0" aria-controls="table2_demo4" rowspan="1" colspan="1" aria-label="可执行命令: activate to sort column ascending">可执行命令</th>
+                                      <th class="sorting" tabindex="0" aria-controls="table2_demo4" rowspan="1" colspan="1" aria-label="状态: activate to sort column ascending">状态</th>
+                                      <th class="sorting" tabindex="0" aria-controls="table2_demo4" rowspan="1" colspan="1" aria-label="计划时间: activate to sort column ascending">计划时间(秒 分 时 日 月 周)</th>
+                                      <th class="sorting" tabindex="0" aria-controls="table2_demo4" rowspan="1" colspan="1" aria-label="下一次执行时间: activate to sort column ascending">下一次执行时间</th>
+                                      <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="操作">操作</th>
+                              </thead>
+                          </table>
+                            <div class="col-md-4">
+                              
+
+                            </div>
+                            <div class="col-lg-8"></div>
+                          </div>
+                      </div>
+                   </div>
+                </div>
+            </div>
+        </div>
+
+<!--  -->
+<script type="text/javascript">
+    //表格(DataTables)-4，综合示例
+    var language = {
+      search: '搜索：',
+      lengthMenu: "每页显示 _MENU_ 记录",
+      zeroRecords: "没找到相应的数据！",
+      info: "分页 _PAGE_ / _PAGES_",
+      infoEmpty: "暂无数据！",
+      infoFiltered: "(从 _MAX_ 条数据中搜索)",
+      paginate: {
+        first: '首页',
+        last: '尾页',
+        previous: '上一页',
+        next: '下一页',
+      }
+    }
+  
+   var editor
+
+    $("#table2_demo4").dataTable({
+        autoWidth: true,
+        lengthChange: true, //不允许用户改变表格每页显示的记录数
+        pageLength : 10, //每页显示几条数据
+        lengthMenu: [5, 15, 20], //每页显示选项
+        pagingType: 'full_numbers',
+        // bStateSave: true,
+        ajax : 'v1/cron/job/show_jobs/',
+        ordering: false,
+        columns : [
+          {data:"id",orderable: false},
+          {data:"cmd",orderable: false},
+          // {data:"next_run_time"},
+          {data:"status",orderable: false},
+          {data:"cron",orderable: false},
+          {data:"next_run_time",orderable: false},
+          {
+            data:null,
+            orderable:false,
+            render : function(data, type, row, meta){
+                return "<a class='btn btn-sm btn-danger del'>删除</a>  <a class='btn btn-sm btn-info edit'>编辑</a>  <a class='btn btn-sm btn-warning pause_job'>暂停</a> <a class='btn btn-sm btn-success resume_job'><i class='ivu-icon ivu-icon-md-play'></i>恢复</a>"
+            }
+          }
+
+        ],
+       
+        language:language,
+  
+
+    });
+// <button type="button" class="ivu-btn ivu-btn-success ivu-btn-small" style="margin-right: 5px;"><!----> <i class="ivu-icon ivu-icon-md-play"></i> <span>恢复执行</span></button>
+    //=============================================================================== action.js
+    //======== 公共使用:
+    var t = $("#table2_demo4").DataTable();//获取datatables对象
+
+    // 暂停任务按钮绑定事件
+    $("#table2_demo4 tbody").on('click', 'a.pause_job', function(){
+        var row = t.row( $(this).parents('tr') ),//获取按钮所在的行
+          data = row.data();
+          // alert(data.id)
+                  swal({
+                  title: "是否确定暂停任务: " + data.id,
+                  text: "操作不规范，运维两行泪",
+                  type: "warning",
+                  showCancelButton: true,
+                  showLoaderOnConfirm: true,
+                  confirmButtonColor: "#DD6B55",
+                  confirmButtonText: "暂停~",
+                  cancelButtonText: "我在想想吧...",
+                  closeOnConfirm: true,
+                  closeOnCancel: true  //关闭取消后还弹出让你确认的效果提示
+                },
+                  function(isConfirm){
+                      if (isConfirm) {
+                        $.ajax ({
+                                type:'POST',
+                                url:"/v1/cron/job/pause",
+                                contentType:'application/json',
+                                datatype: "json",
+                                data: JSON.stringify({"id": data.id}),
+
+                                success:function(res){   //将处理的结果进行判断，根据执行失败，成功现实的提示不同的内容
+                                    console.log(res)
+                                    if (res.status) {
+                                        swal(res.msg, "", "success");
+                                        // t.ajax.reload()
+                                    }
+                                    else {
+                                        swal(res.msg, "", "error");
+                                    }
+                                }
+                            });
+                         }
+                    });
+             });
+    // 恢复任务按钮绑定事件
+    $("#table2_demo4 tbody").on('click', 'a.resume_job', function(){
+        var row = t.row( $(this).parents('tr') ),//获取按钮所在的行
+          data = row.data();
+          // alert(data.id)
+                  swal({
+                  title: "是否确定恢复任务: " + data.id,
+                  text: "操作不规范，运维两行泪",
+                  type: "warning",
+                  showCancelButton: true,
+                  showLoaderOnConfirm: true,
+                  confirmButtonColor: "#DD6B55",
+                  confirmButtonText: "恢复~",
+                  cancelButtonText: "我在想想吧...",
+                  closeOnConfirm: true,
+                  closeOnCancel: true  //关闭取消后还弹出让你确认的效果提示
+                },
+                  function(isConfirm){
+                      if (isConfirm) {
+                        $.ajax ({
+                                type:'POST',
+                                url:"/v1/cron/job/resume",
+                                contentType:'application/json',
+                                datatype: "json",
+                                data: JSON.stringify({"id": data.id}),
+
+                                success:function(res){   //将处理的结果进行判断，根据执行失败，成功现实的提示不同的内容
+                                    console.log(res)
+                                    if (res.status) {
+                                        swal(res.msg, "", "success");
+                                        t.ajax.reload()
+                                    }
+                                    else {
+                                        swal(res.msg, "", "error");
+                                    }
+                                }
+                            });
+                         }
+                    });
+             });
+
+    // 删除任务按钮绑定事件
+    $("#table2_demo4 tbody").on('click', 'a.del', function(){
+        var row = t.row( $(this).parents('tr') ),//获取按钮所在的行
+          data = row.data();
+                //   swal({
+                //   title: "是否确定删除任务: " + data.id,
+                //   text: "操作不规范，运维两行泪",
+                //   type: "warning",
+                //   showCancelButton: true,
+                //   showLoaderOnConfirm: true,
+                //   confirmButtonColor: "#DD6B55",
+                //   confirmButtonText: "删除~",
+                //   cancelButtonText: "我在想想吧...",
+                //   closeOnConfirm: true,
+                //   closeOnCancel: true  //关闭取消后还弹出让你确认的效果提示
+                // },
+                //   function(isConfirm){
+                //       if (isConfirm) {
+                //         $.ajax ({
+                //                 type:'DELETE',
+                //                 url:"/v1/cron/job/remove",
+                //                 contentType:'application/json',
+                //                 datatype: "json",
+                //                 data: JSON.stringify({"id": data.id}),
+
+                //                 success:function(res){   //将处理的结果进行判断，根据执行失败，成功现实的提示不同的内容
+                //                     console.log(res)
+                //                     if (res.status) {
+                //                         swal(res.msg, "", "success");
+                //                         row.remove().draw();
+                //                     }
+                //                     else {
+                //                         swal(res.msg, "", "error");
+                //                     }
+                //                 }
+                //             });
+                //          }
+                //     });
+                layer.msg('Demo环境，暂时无法删除.')
+             });
+   
+    //详情按钮绑定事件
+    $("#table2_demo4 tbody").on('click', 'a.job_info', function(){
+        var row = t.row( $(this).parents('tr') ),//获取按钮所在的行
+          data = row.data();
+          var id = data['id']
+            layer.open({
+              type: 2,
+              skin: 'layui-layer-demo', //样式类名
+              closeBtn: 0, //不显示关闭按钮
+              anim: 2,
+              shadeClose: true, //开启遮罩关闭
+              content: '/v1/cron/job/show_jobs?id=' + id
+            });
+    });
+    setInterval( function () {
+      t.ajax.reload(); // 刷新表格数据，分页信息不会重置
+    }, 2000 );
+
+
+    $("#table2_demo4 tbody").on('click', 'a.edit', function(){
+            var data = t.row( $(this).parents('tr') ).data();
+            console.log(data)
+            var fields = $("#add-form").serializeArray();
+            // jQuery.each( fields, function(i, field){
+            //     //jquery根据name属性查找
+            //     $(":input[name='"+field.name+"']").val(data[i]);
+            // });
+            // $(":input[name='mark']").val("edit");
+            // $("#modal-form").modal("show");//弹出框show
+            
+        });
+
+
+
+
+
+</script>
+{% endblock %}

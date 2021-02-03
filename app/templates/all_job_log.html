@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+
+{% block page_content %}
+
+<link href="https://magicbox.bk.tencent.com/static_api/v3/assets/bootstrap-3.3.4/css/bootstrap.min.css" rel="stylesheet"/>
+<link href="https://magicbox.bk.tencent.com/static_api/v3/assets/datatables-1.10.7/dataTables.bootstrap.css" rel="stylesheet"/>
+<!-- <link href="https://magicbox.bk.tencent.com/static_api/v3/bk/css/bk.css" rel="stylesheet"> -->
+<script src="https://magicbox.bk.tencent.com/static_api/v3/assets/js/jquery-1.10.2.min.js"></script>
+<script src="https://magicbox.bk.tencent.com/static_api/v3/assets/datatables-1.10.7/jquery.dataTables.js"></script>
+<script src="https://magicbox.bk.tencent.com/static_api/v3/assets/datatables-1.10.7/dataTables.bootstrap.js"></script>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+        <div class="col-lg-12">
+            <ol class="breadcrumb">
+                <li class="active">
+                    <strong>😁</strong><br>
+                </li>
+            </ol>
+        </div>
+
+    </div>
+    <div class="wrapper wrapper-content animated fadeInRight">
+        <div class="row">
+            <div class="col-lg-12">
+
+
+                <div class="ibox float-e-margins">
+                    <div class="ibox-content">
+                        <div id="ct-chart1" class="ct-perfect-fourth"></div>
+                                    <div class="panel-content">
+                                      
+                                      <a class="btn btn-xs btn-danger" id="deleteAll" title="删除">清空任务日志</a>
+                                      <table id="table2_demo4" class="table table-bordered table-striped dataTable no-footer" role="grid" aria-describedby="table2_demo4_info">
+                                          <thead>
+                                                  <th class="sorting_asc" rowspan="1" colspan="1" aria-label="名称">id</th>
+                                                  <th class="sorting" tabindex="0" aria-controls="table2_demo4" rowspan="1" colspan="1" aria-label="职位: activate to sort column ascending">任务ID</th>
+                                                  <!-- <th class="sorting" tabindex="0" aria-controls="table2_demo4" rowspan="1" colspan="1" aria-label="工资: activate to sort column ascending">时间</th> -->
+                                                  <th class="sorting" tabindex="0" aria-controls="table2_demo4" rowspan="1" colspan="1" aria-label="开始时间: activate to sort column ascending">状态</th>
+                                                  <th class="sorting" tabindex="0" aria-controls="table2_demo4" rowspan="1" colspan="1" aria-label="位置: activate to sort column ascending">执行时间</th>
+                                                  <th class="sorting" tabindex="0" aria-controls="table2_demo4" rowspan="1" colspan="1" aria-label="位置: activate to sort column ascending">执行命令</th>
+                                              <!--     <th class="sorting" tabindex="0" aria-controls="table2_demo4" rowspan="1" colspan="1" aria-label="位置: activate to sort column ascending">执行输出</th> -->
+                                                  <th class="sorting_disabled" rowspan="1" colspan="1" aria-label="操作">操作</th>
+                                              </tr>
+                                          </thead>
+                                          
+                                      </table>
+
+                                        <div class="col-md-4">
+                                          
+
+                                        </div>
+                                        <div class="col-lg-8"></div>
+                                       
+                                      </div>
+                                  </div>
+                                 </div>
+                              </div>
+                          </div>
+                      </div>
+    
+
+<script type="text/javascript">
+    //表格(DataTables)-4，综合示例
+    var language = {
+      search: '搜索：',
+      lengthMenu: "每页显示 _MENU_ 记录",
+      zeroRecords: "没找到相应的数据！",
+      info: "分页 _PAGE_ / _PAGES_",
+      infoEmpty: "暂无数据！",
+      infoFiltered: "(从 _MAX_ 条数据中搜索)",
+      paginate: {
+        first: '首页',
+        last: '尾页',
+        previous: '上一页',
+        next: '下一页',
+      }
+    }
+  
+
+    $("#table2_demo4").dataTable({
+        autoWidth: false,
+        lengthChange: true, //不允许用户改变表格每页显示的记录数
+        pageLength : 10, //每页显示几条数据
+        lengthMenu: [5, 15, 20], //每页显示选项
+        pagingType: 'full_numbers',
+        ajax : 'v1/cron/job/job_log',
+        ordering: false,
+        columns : [
+          {data:"id",orderable: false},
+          {data:"task_id",orderable: false},
+          // {data:"next_run_time"},
+          {data:"status",orderable: false},
+          {data:"exe_time",orderable: false},
+          {data:"cmd",orderable: false},
+          // {data:"stdout"},
+          {
+            data:null,
+            orderable:false,
+            render : function(data, type, row, meta){
+                return "<a class='btn btn-sm btn-danger del'>删除</a> <a class='btn btn-sm btn-success job_info'>输出</a>"
+            }
+          }
+
+        ],
+        language:language
+
+    });
+
+    //=============================================================================== action.js
+    //======== 公共使用:
+    var t = $("#table2_demo4").DataTable();//获取datatables对象
+
+    // 删除任务按钮绑定事件
+    $("#table2_demo4 tbody").on('click', 'a.del', function(){
+        var row = t.row( $(this).parents('tr') ),//获取按钮所在的行
+          data = row.data();
+          // alert(data.id)
+                  swal({
+                  title: "是否确定删除任务: " + data.task_id + "的日志？",
+                  text: "^o^",
+                  type: "warning",
+                  showCancelButton: true,
+                  showLoaderOnConfirm: true,
+                  confirmButtonColor: "#DD6B55",
+                  confirmButtonText: "删除~",
+                  cancelButtonText: "我在想想吧...",
+                  closeOnConfirm: true,
+                  closeOnCancel: true  //关闭取消后还弹出让你确认的效果提示
+                },
+                  function(isConfirm){
+                      if (isConfirm) {
+                        $.ajax ({
+                                type:'DELETE',
+                                url:"{{url_for('main.dellog')}}",
+                                contentType:'application/json',
+                                datatype: "json",
+                                data: JSON.stringify({"id": data.id}),
+                                success:function(res){   //将处理的结果进行判断，根据执行失败，成功现实的提示不同的内容
+                                    console.log(res)
+                                    if (res.status) {
+                                        swal(res.msg, "", "success");
+                                        row.remove().draw();
+                                    }
+                                    else {
+                                        swal(res.msg, "", "error");
+                                    }
+                                }
+                            });
+                         }
+                    });
+             });
+   
+    //详情按钮绑定事件
+    $("#table2_demo4 tbody").on('click', 'a.job_info', function(){
+        var row = t.row( $(this).parents('tr') ),//获取按钮所在的行
+          data = row.data();
+          var id = data['id']
+            layer.open({
+              type: 2 ,
+              skin: 'layui-layer-demo', //样式类名
+              closeBtn: 1, //不显示关闭按钮
+              title: "Stdout",
+              anim: 2,
+              area: '800px',
+              shade: [0.8, '#393D49'],
+              shadeClose: true, //开启遮罩关闭
+              content: '/stdout/' +  id,
+              success: function(layero,index) {
+                layer.iframeAuto(index)
+              }
+            });
+    });
+    // // 删除任务按钮绑定事件
+    // $("#table2_demo4 tbody").on('click', 'a.del_job_log', function(){
+    //     var row = t.row( $(this).parents('tr') ),//获取按钮所在的行
+    //       data = row.data();
+    //       // alert(data.id)
+    //               swal({
+    //               title: "是否确定删除任务: " + data.task_id + "的日志？",
+    //               text: "^o^",
+    //               type: "warning",
+    //               showCancelButton: true,
+    //               showLoaderOnConfirm: true,
+    //               confirmButtonColor: "#DD6B55",
+    //               confirmButtonText: "删除~",
+    //               cancelButtonText: "我在想想吧...",
+    //               closeOnConfirm: false,
+    //               closeOnCancel: true  //关闭取消后还弹出让你确认的效果提示
+    //             },
+    //               function(isConfirm){
+    //                   if (isConfirm) {
+    //                     $.ajax ({
+    //                             type:'DELETE',
+    //                             url:"{{ url_for('main.dellog') }}",
+    //                             contentType:'application/json',
+    //                             datatype: "json",
+    //                             data: JSON.stringify({"id": data.id}),
+
+    //                             success:function(res){   //将处理的结果进行判断，根据执行失败，成功现实的提示不同的内容
+    //                                 console.log(res)
+    //                                 if (res.status) {
+    //                                     swal(res.msg, "", "success");
+    //                                     row.remove().draw();
+    //                                 }
+    //                                 else {
+    //                                     swal(res.msg, "", "error");
+    //                                 }
+    //                             }
+    //                         });
+    //                      }
+    //                 });
+    //          });
+    setInterval( function () {
+      t.ajax.reload(); // 刷新表格数据，分页信息不会重置
+    }, 2000 );
+</script>
+
+{% endblock %}
