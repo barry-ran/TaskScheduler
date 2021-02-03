@@ -19,8 +19,8 @@
 
 # 用法:
 ```
-$ git clone https://github.com/guomaoqiu/JobCenter.git
-$ cd JobCenter
+$ git clone git@github.com:barry-ran/TaskScheduler.git
+$ cd TaskScheduler
 $ pipenv install --dev
 $ pipenv shell
 # 需提前创建数据库
