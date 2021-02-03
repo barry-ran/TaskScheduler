@@ -48,7 +48,7 @@ class TaskConfig(object):
     log.setLevel(logging.DEBUG)  # DEBUG
     fmt = logging.Formatter('%(levelname)s:%(name)s:%(message)s')
     h = logging.StreamHandler()
-    h = logging.FileHandler('/tmp/task_scheduler.log')
+    h = logging.FileHandler(os.environ['TEMP'] + '/task_scheduler.log')
 
     h.setFormatter(fmt)
     log.addHandler(h)
