@@ -34,6 +34,7 @@ flask-debugtoolbar = "*"
 flask-apscheduler = "*"
 flask-cors = "*"
 gitpython = "*"
+email_validator = "*"
 
 [dev-packages]
 
