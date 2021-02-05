@@ -21,7 +21,7 @@
                                     
                                        <div class="col-md-7">
                                           <div class="jumbotron">
-                                            <h1>JobCenter!</h1>
+                                            <h1>TaskScheduler!</h1>
                                             <p class="lead"> 让添加执行计划任务变得更加优雅~. </p>
                                             <p><a class="btn btn-lg btn-success" href="#" role="button">Go xxxsGo Up!</a></p>
                                             <h5>请使用<code>Chrome</code>浏览器进行访问😁</h5>
@@ -88,12 +88,12 @@
 
 
 
-[program:jobcenter]
-command=/root/.local/share/virtualenvs/JobCenter-OelQLIOn/bin/python3 /root/.local/share/virtualenvs/JobCenter-OelQLIOn/bin/flask run -p 5009
-directory=/home/JobCenter
+[program:taskscheduler]
+command=/root/.local/share/virtualenvs/TaskScheduler-OelQLIOn/bin/python3 /root/.local/share/virtualenvs/TaskScheduler-OelQLIOn/bin/flask run -p 5009
+directory=/home/TaskScheduler
 stopwaitsecs=0
 autostart=true
 autorestart=true
-#stdout_logfile=/var/log/gunicorn_jobcenter.log
-#stderr_logfile=/var/log/gunicorn_jobcenter.error
+#stdout_logfile=/var/log/gunicorn_taskscheduler.log
+#stderr_logfile=/var/log/gunicorn_taskscheduler.error
  -->

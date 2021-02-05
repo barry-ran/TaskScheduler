@@ -15,7 +15,7 @@ mysql_info = dict(
     port = 3306,
     dbname = 'jobs',
     username = 'root',
-    password = 'guo.150019'
+    password = '123456'
 )
 
 '''

@@ -21,7 +21,7 @@ import git, os
 code_dir = "./"
 
 # 远程服务器代码地址
-git_url = "git@github.com:guomaoqiu/JobCenter.git"
+git_url = "git@github.com:barry-ran/TaskScheduler.git"
 
 app = Flask(__name__)
 
@@ -47,4 +47,4 @@ if __name__ == '__main__':
     app.run(host='0.0.0.0', port=7070)
 
 # 服务端启动命令
-#cd /home/JobCenter/ && nohup /root/.local/share/virtualenvs/JobCenter-OelQLIOn/bin/python /home/JobCenter/webhook.py >> /var/log/pullcode_JobCenter.log &
+#cd /home/TaskScheduler/ && nohup /root/.local/share/virtualenvs/TaskScheduler-OelQLIOn/bin/python /home/TaskScheduler/webhook.py >> /var/log/pullcode_TaskScheduler.log &
