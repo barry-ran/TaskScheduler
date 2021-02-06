@@ -105,7 +105,6 @@ class TestingConfig(Config):
 
 class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = MYSQL_URL
-    # DEMO_ENV=False
 
 config = {
     'development': DevelopmentConfig,
