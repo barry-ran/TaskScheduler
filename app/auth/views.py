@@ -37,7 +37,7 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         user = User.query.filter_by(email=form.email.data).first()
-        if user is not None and user.verify_password("123.com"):
+        if user is not None and user.verify_password(form.password.data):
             login_user(user, form.remember_me.data)
             print (request.headers.get('X-Forwarded-For',request.remote_addr))
 #            login_log = LoginLog()

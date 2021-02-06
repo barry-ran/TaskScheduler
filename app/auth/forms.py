@@ -11,9 +11,9 @@ from wtforms import ValidationError
 from ..models import User
 
 class LoginForm(FlaskForm):
-    email = StringField('邮箱', default="2399447849@qq.com", validators=[Required(), Length(1, 64),
+    email = StringField('邮箱', default="123456@qq.com", validators=[Required(), Length(1, 64),
                                              Email()])
-    password = StringField('密码', default="123.com", validators=[Required()])
+    password = StringField('密码', default="123456", validators=[Required()])
     remember_me = BooleanField('保持登录')
     submit = SubmitField('登录')
 

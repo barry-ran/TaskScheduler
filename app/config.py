@@ -78,8 +78,8 @@ class Config:
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD =  os.environ.get('MAIL_PASSWORD')
     FLASKY_MAIL_SUBJECT_PREFIX = u'[TaskServices]'
-    FLASKY_MAIL_SENDER = '2399447849@qq.com'
-    FLASKY_ADMIN = '2399447849@qq.com' # os.environ.get('FANXIANG_ADMIN')
+    FLASKY_MAIL_SENDER = '870709864@qq.com'
+    FLASKY_ADMIN = '870709864@qq.com' # os.environ.get('FANXIANG_ADMIN')
 
     #加密解密所需的key
     PRPCRYPTO_KEY= '2d4g53sdfs6L6K'

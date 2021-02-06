@@ -15,6 +15,8 @@ from .auth import auth as auth_blueprint
 from .job import job as job_blueprint
 from flask_debugtoolbar import DebugToolbarExtension
 
+# 当使用flask run命令启动程序时，flask会自动从环境变量FLASK_APP的值定义的模块中寻找名称为create_app()或make_app()的工厂函数
+# 自动调用工厂函数创建程序实例并运行
 def create_app(config_name=None):
     if config_name is None:
         config_name = os.getenv('FLASK_CONFIG', 'default')
