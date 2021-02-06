@@ -70,6 +70,20 @@ def caidan():
     ''' others '''
     return render_template('others.html')
 
+@main.route('/delalllog',methods=['DELETE'])
+@login_required
+def delalllog():
+    ''' 删除job日志 '''
+    response = {}
+    try:
+        db.session.query(TaskLog).delete()
+        response['status']=True
+        response['msg'] = "all joblog delete success!"
+    except Exception as e:
+        response["msg"] = "删除失败 --- %s" % e
+        response['status'] = False    
+    return jsonify(response)
+
 @main.route('/dellog',methods=['DELETE'])
 @login_required
 def dellog():

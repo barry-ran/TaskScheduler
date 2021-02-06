@@ -28,8 +28,7 @@
                     <div class="ibox-content">
                         <div id="ct-chart1" class="ct-perfect-fourth"></div>
                                     <div class="panel-content">
-                                      
-                                      <a class="btn btn-xs btn-danger" id="deleteAll" title="删除">清空任务日志</a>
+                                      <a class="btn btn-sm btn-danger" id="deleteAll" title="删除">清空任务日志</a>
                                       <table id="table2_demo4" class="table table-bordered table-striped dataTable no-footer" role="grid" aria-describedby="table2_demo4_info">
                                           <thead>
                                                   <th class="sorting_asc" rowspan="1" colspan="1" aria-label="名称">id</th>
@@ -149,7 +148,7 @@
                          }
                     });
              });
-   
+
     //详情按钮绑定事件
     $("#table2_demo4 tbody").on('click', 'a.job_info', function(){
         var row = t.row( $(this).parents('tr') ),//获取按钮所在的行
@@ -169,6 +168,43 @@
                 layer.iframeAuto(index)
               }
             });
+    });
+    // 删除所有日志按钮绑定事件
+    $('#deleteAll').click(function() {
+      swal({
+                  title: "是否确定删除所有任务的日志？",
+                  text: "^o^",
+                  type: "warning",
+                  showCancelButton: true,
+                  showLoaderOnConfirm: true,
+                  confirmButtonColor: "#DD6B55",
+                  confirmButtonText: "删除~",
+                  cancelButtonText: "我在想想吧...",
+                  closeOnConfirm: true,
+                  closeOnCancel: true  //关闭取消后还弹出让你确认的效果提示
+                },
+                  function(isConfirm){
+                      if (isConfirm) {
+                        $.ajax ({
+                                type:'DELETE',
+                                url:"{{url_for('main.delalllog')}}",
+                                contentType:'application/json',
+                                datatype: "json",
+                                data: '',
+                                success:function(res){   //将处理的结果进行判断，根据执行失败，成功现实的提示不同的内容
+                                    console.log(res)
+                                    if (res.status) {
+                                        swal(res.msg, "", "success");
+                                        row.remove().draw();
+                                    }
+                                    else {
+                                        swal(res.msg, "", "error");
+                                    }
+                                }
+                            });
+                         }
+                    });
+
     });
     // // 删除任务按钮绑定事件
     // $("#table2_demo4 tbody").on('click', 'a.del_job_log', function(){
