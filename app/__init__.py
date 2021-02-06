@@ -107,3 +107,8 @@ def register_commands(app):
 
         User.create_root()
         click.echo('Create root user.')
+
+    @app.cli.command()
+    def test():
+        """Test."""
+        print('MAIL_USERNAME: %s' %(os.environ.get('MAIL_USERNAME')))

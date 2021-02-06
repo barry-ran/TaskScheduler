@@ -75,10 +75,11 @@ class Config:
     MAIL_SERVER = 'smtp.qq.com'
     MAIL_PORT = 465
     MAIL_USE_SSL = True
+    # 想要成功发送邮件，需要配置这两个环境变量,参考这里 https://blog.csdn.net/hrbust_cxl/article/details/86745769
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD =  os.environ.get('MAIL_PASSWORD')
     FLASKY_MAIL_SUBJECT_PREFIX = u'[TaskServices]'
-    FLASKY_MAIL_SENDER = 'root@email.com'
+    FLASKY_MAIL_SENDER = os.environ.get('MAIL_USERNAME')
 
     FLASKY_ADMIN = 'root@email.com' # os.environ.get('FANXIANG_ADMIN')
     FLASKY_ADMIN_PASSWORD = '123456'
