@@ -73,6 +73,15 @@ class User(UserMixin, db.Model):
             if self.role is None:
                 self.role = Role.query.filter_by(default=True).first()
 
+    @staticmethod
+    def create_root():
+        user = User(email=current_app.config['FLASKY_ADMIN'],
+                    username='root',
+                    password=current_app.config['FLASKY_ADMIN_PASSWORD'],
+                    confirmed=True)
+        db.session.add(user)
+        db.session.commit()
+
     @property
     def password(self):
         raise AttributeError('password is not a readable attribute')

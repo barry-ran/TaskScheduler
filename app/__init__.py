@@ -92,6 +92,9 @@ def register_commands(app):
         db.create_all()
         click.echo('Initialized database.')
 
+        User.create_root()
+        click.echo('Create root user.')
+
     @app.cli.command()
     def init():
         """Initialize Albumy."""
@@ -101,3 +104,6 @@ def register_commands(app):
         #click.echo('Initializing the roles and permissions...')
         Role.insert_roles()
         click.echo('Done.')
+
+        User.create_root()
+        click.echo('Create root user.')
