@@ -1,5 +1,6 @@
-![](https://blog.sctux.com/2019/03/19/Flask%E7%BB%93%E5%90%88APScheduler%E5%AE%9E%E7%8E%B0%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1%E6%A1%86%E6%9E%B6%E5%B9%B3%E5%8F%B0/info.png)
+![](docs/image/logo.png)
 
+基于flask和apscheduler的可视化操作任务调度系统，支持一次性任务、定时任务、周期任务。
 
 基于[JobCenter](https://github.com/guomaoqiu/JobCenter)修改
 
@@ -8,7 +9,7 @@
 * 定时任务统一管理
 * 完全兼容Crontab
 * 支持秒级定时任务
-* 作业任务可搜索、暂停、编辑、删除
+* 作业任务可搜索、暂停、删除
 * 作业任务持久化存储、三种不同触发器类型作业动态添加
 
 # 用法:
@@ -17,6 +18,7 @@ $ git clone git@github.com:barry-ran/TaskScheduler.git
 $ cd TaskScheduler
 $ pipenv install --dev
 $ pipenv shell
+# 先在config.py中的mysql_info配置数据库用户名、密码
 # 需提前创建数据库（jobs），空数据库即可
 $ flask init 
 
@@ -30,22 +32,24 @@ $ flask run
 $ pipenv install  # 创建虚拟环境并安装依赖
 $ pipenv shell  # 激活虚拟环境
 $ flask initdb  # 初始化数据库
-$ flask admin  # 创建管理员账户
 $ flask initdb --drop # 删除数据
 ```
 ## APScheduler工作流程图
-![](https://blog.sctux.com/2019/03/19/Flask%E7%BB%93%E5%90%88APScheduler%E5%AE%9E%E7%8E%B0%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1%E6%A1%86%E6%9E%B6%E5%B9%B3%E5%8F%B0/liuchengtu.png)
+![](docs/image/liuchengtu.png)
 
 ## 清爽的登录界面
-![](https://blog.sctux.com/2019/03/19/Flask%E7%BB%93%E5%90%88APScheduler%E5%AE%9E%E7%8E%B0%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1%E6%A1%86%E6%9E%B6%E5%B9%B3%E5%8F%B0/login.png)
+内置管理员账户，可直接登录
+![](docs/image/login.png)
 
 ## 针对不同触发器动态增加定时任务
-![](https://blog.sctux.com/2019/03/19/Flask%E7%BB%93%E5%90%88APScheduler%E5%AE%9E%E7%8E%B0%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1%E6%A1%86%E6%9E%B6%E5%B9%B3%E5%8F%B0/addjob.png)
+例如下面添加了一个每隔60s定时爬取小姐姐图片的python脚本任务(脚本在jobs/crawler_girls.py中)
+![](docs/image/addjob.png)
 
 ## 任务执行输出日志持久化存放并展示
-![](https://blog.sctux.com/2019/03/19/Flask%E7%BB%93%E5%90%88APScheduler%E5%AE%9E%E7%8E%B0%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1%E6%A1%86%E6%9E%B6%E5%B9%B3%E5%8F%B0/stdout.png)
+可以在任务输出中查看我们已经爬取到了小姐姐图片地址
+![](docs/image/stdout.png)
 
 ## 任务列表中暂停、恢复已添加定时任务
-![](https://blog.sctux.com/2019/03/19/Flask%E7%BB%93%E5%90%88APScheduler%E5%AE%9E%E7%8E%B0%E5%AE%9A%E6%97%B6%E4%BB%BB%E5%8A%A1%E6%A1%86%E6%9E%B6%E5%B9%B3%E5%8F%B0/pausejob.png)
+![](docs/image/pausejob.png)
 
 
