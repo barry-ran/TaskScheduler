@@ -6,6 +6,7 @@
 # @Last Modified time: 2019-03-19 11:50:42
 
 import subprocess
+import platform
 import json
 import datetime
 from datetime import date
@@ -17,7 +18,11 @@ def exec_shell(cmd):
     sub2 = subprocess.Popen(cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     stdout, stderr = sub2.communicate()
     ret = sub2.returncode
-    return ret, stdout.decode('utf-8')
+
+    if(platform.system()=='Windows'):
+        return ret, stdout.decode('gbk')
+    else:
+        return ret, stdout.decode('utf-8')
 
 class DateEncoder(json.JSONEncoder):
     def default(self, obj):
