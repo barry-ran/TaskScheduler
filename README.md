@@ -34,6 +34,8 @@ $ pipenv shell  # 激活虚拟环境
 $ flask initdb  # 初始化数据库
 $ flask initdb --drop # 删除数据
 ```
+
+# 介绍
 ## APScheduler工作流程图
 ![](docs/image/liuchengtu.png)
 
@@ -52,4 +54,25 @@ $ flask initdb --drop # 删除数据
 ## 任务列表中暂停、恢复已添加定时任务
 ![](docs/image/pausejob.png)
 
+
+# 开发相关
+## ubuntu安装mariadb
+```
+# 安装服务
+apt-get install mariadb-server
+# 启动
+sudo systemctl start mariadb
+sudo systemctl enable mariad
+# 设置密码（第一次安装密码为空，直接回车即可）
+mysql -u root -p
+use mysql;
+update user set authentication_string=password("123456") where user="root";
+flush privileges;
+# 创建数据库
+create database jos;
+```
+参考文档：
+[ubuntu18.04下安装mariaDB](https://www.cnblogs.com/lzwangshubo/p/9977997.html)
+
+[MariaDB设置密码](https://www.cnblogs.com/cpl9412290130/p/9583868.html)
 
