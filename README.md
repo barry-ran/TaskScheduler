@@ -26,7 +26,7 @@ $ flask run
 * Running on http://127.0.0.1:5000/
 
 # 开启外网访问
-flask run --host 0.0.0.0 --port 80
+flask run --host 0.0.0.0 --port 5000
 ```
 
 # 常用命令
