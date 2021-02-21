@@ -202,7 +202,7 @@ class Weidian(db.Model):
 class TaskLog(db.Model):
     __tablename__ = 'task_log'
     id = db.Column(db.Integer, primary_key=True)
-    task_id = db.Column(db.String(16))
+    task_id = db.Column(db.String(128))
     status = db.Column(db.Boolean)
     exe_time = db.Column(db.DateTime, default=datetime.now)
     cmd = db.Column(db.String(128))
