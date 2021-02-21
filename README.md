@@ -68,6 +68,10 @@ mysql -u root -p
 use mysql;
 update user set authentication_string=password("123456") where user="root";
 flush privileges;
+
+# 设置允许用户密码登录（ubuntu下需要）
+UPDATE user SET plugin='mysql_native_password' WHERE User='root';
+FLUSH PRIVILEGES;
 # 创建数据库
 create database jos;
 ```
