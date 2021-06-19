@@ -76,7 +76,7 @@ flush privileges;
 UPDATE user SET plugin='mysql_native_password' WHERE User='root';
 FLUSH PRIVILEGES;
 # 创建数据库
-create database jos;
+create database jobs;
 ```
 参考文档：
 [ubuntu18.04下安装mariaDB](https://www.cnblogs.com/lzwangshubo/p/9977997.html)
