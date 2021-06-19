@@ -8,6 +8,7 @@
 from flask_wtf import FlaskForm
 from wtforms import StringField, SubmitField,TextAreaField,SelectField
 from wtforms.validators import Required, Length, Email, DataRequired , EqualTo, Regexp
+import time
 
 # NameForm
 class NameForm(FlaskForm):
@@ -18,7 +19,7 @@ class NameForm(FlaskForm):
 class JobDateForm(FlaskForm):
     job_id = StringField('任务名称',default="DATE-" , validators=[Required()])
     func_cmd = StringField('执行函数或命令', validators=[Required()])
-    run_date = StringField('计划运行时间',default="2019-03-20 11:11:11", validators=[Required()])
+    run_date = StringField('计划运行时间',default=time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()), validators=[Required()])
     submit_date = SubmitField('确认添加')
 
 # JobCronForm
