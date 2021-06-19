@@ -41,6 +41,8 @@ class TaskConfig(object):
         'max_instances': 5
     }
     SCHEDULER_API_ENABLED = False
+    # 设置时区
+    SCHEDULER_TIMEZONE = 'Asia/Shanghai'
     
 
     # 任务日志
