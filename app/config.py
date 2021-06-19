@@ -41,8 +41,8 @@ class TaskConfig(object):
         'max_instances': 5
     }
     SCHEDULER_API_ENABLED = False
-    # 不设置时区，默认使用系统本地时区
-    #SCHEDULER_TIMEZONE = 'Asia/Shanghai'
+    # 设置时区
+    SCHEDULER_TIMEZONE = 'Asia/Shanghai'
     
 
     # 任务日志

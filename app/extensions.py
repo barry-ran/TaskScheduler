@@ -10,6 +10,7 @@ from flask_mail import Mail
 from flask_moment import Moment
 from flask_sqlalchemy import SQLAlchemy
 from flask_apscheduler import APScheduler
+from apscheduler.schedulers.background import BackgroundScheduler 
 
 bootstrap = Bootstrap()
 db = SQLAlchemy()
@@ -18,7 +19,7 @@ mail = Mail()
 moment = Moment()
 
 # task sevices
-scheduler = APScheduler()
+scheduler = APScheduler(BackgroundScheduler(timezone="Asia/Shanghai"))
 
 @login_manager.user_loader
 def load_user(user_id):
