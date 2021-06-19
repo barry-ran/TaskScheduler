@@ -202,10 +202,10 @@ class Weidian(db.Model):
 class TaskLog(db.Model):
     __tablename__ = 'task_log'
     id = db.Column(db.Integer, primary_key=True)
-    task_id = db.Column(db.String(128))
+    task_id = db.Column(db.String(1024))
     status = db.Column(db.Boolean)
     exe_time = db.Column(db.DateTime, default=datetime.now)
-    cmd = db.Column(db.String(128))
+    cmd = db.Column(db.String(1024))
     stdout = db.Column(db.Text)
 
     def to_json(self):
